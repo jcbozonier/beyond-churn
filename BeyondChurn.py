@@ -54,8 +54,8 @@ def windows_are_similar(pre_window, post_window):
   pre_window_credibility_interval = find_credible_interval(pre_window_hypothesis_probabilities)
   post_window_credibility_interval = find_credible_interval(post_window_hypothesis_probabilities)
     
-  return pre_window_credibility_interval[0] < post_window_credibility_interval[1] and \
-         pre_window_credibility_interval[1] > post_window_credibility_interval[0]
+  return (post_window_credibility_interval[0] <= pre_window_credibility_interval[1] and post_window_credibility_interval[0] >= pre_window_credibility_interval[0]) or \
+         (pre_window_credibility_interval[0] <= post_window_credibility_interval[1] and pre_window_credibility_interval[0] >= post_window_credibility_interval[0])
 
 def do_dynamic_window_partition(arbitrary_window):
   result = find_breaking_point(arbitrary_window)
