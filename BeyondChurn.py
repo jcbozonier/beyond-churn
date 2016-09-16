@@ -3,23 +3,15 @@ import scipy.stats as ss
 
 def find_smallest_credible_hypothesis(hypothesis_probability_pairs):
   hypotheses, probabilities = zip(*hypothesis_probability_pairs)
-  cumsum_probabilities= list(reversed(np.array(list(reversed(probabilities))).cumsum()))
+  cumsum_probabilities= list(np.array(list(probabilities)).cumsum())
   cumsum_hypothesis_probabilities = list(zip(hypotheses, cumsum_probabilities))
-  for cumsum_hypothesis_probability in cumsum_hypothesis_probabilities:
-    if cumsum_hypothesis_probability[1] <= .975:
-      most_likely_smallest_hypothesis = cumsum_hypothesis_probability[0]
-      break
-  return most_likely_smallest_hypothesis
+  return next(x[0] for i, x in enumerate(cumsum_hypothesis_probabilities) if x[1] >= 0.025)
 
 def find_largest_credible_hypothesis(hypothesis_probability_pairs):
   hypotheses, probabilities = zip(*hypothesis_probability_pairs)
   cumsum_probabilities= list(np.array(list(probabilities)).cumsum())
   cumsum_hypothesis_probabilities = list(zip(hypotheses, cumsum_probabilities))
-  for cumsum_hypothesis_probability in cumsum_hypothesis_probabilities:
-    if cumsum_hypothesis_probability[1] >= .975:
-      most_likely_largest_hypothesis = cumsum_hypothesis_probability[0]
-      break
-  return most_likely_largest_hypothesis
+  return next(x[0] for i, x in enumerate(cumsum_hypothesis_probabilities) if x[1] >= 0.975)
 
 def find_credible_interval(hypothesis_probability_pairs):
   return (find_smallest_credible_hypothesis(hypothesis_probability_pairs),
