@@ -30,10 +30,13 @@ def given_data_with_which_varies_but_centers_on_one_test():
   nt.assert_greater_equal(interval[1],1, 'Interval should include the mean rate, 1.')
 
 def given_hypotheses_with_perfect_split_test():
+  # Given
   hypotheses = [(1, 0.0255),
                  (2, 0.94),
                  (3, 0.0255)]
-  interval = bc.find_credible_interval(hypotheses)
 
+  # When
+  interval = bc.find_credible_interval(hypotheses)
+  # Should
   nt.assert_equal(interval, (1,3), 'Should obey bounds')
 
